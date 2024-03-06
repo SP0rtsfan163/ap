@@ -1,0 +1,34 @@
+var data = {
+  "State or region": getColumn("US Voter Registration and Demographics By State", "STATE"),
+  "Total population": getColumn("US Voter Registration and Demographics By State", "Total population"),
+  "Demographics": getColumn("US Voter Registration and Demographics By State", "Demographic"),
+  "Total registered": getColumn("US Voter Registration and Demographics By State", "Total registered"),
+};
+
+onEvent("stateChoice", "input", updateScreen);
+onEvent("DemographicChoice", "input", updateScreen);
+
+function updateScreen() { 
+  var stateInput = getText("stateChoice");
+  var DemographicInput = getText("DemographicChoice");
+  
+  var filteredStateOrRegion = [];
+  var filteredDemographics = [];
+  var filteredPopulation = [];
+  
+  for (var i = 0; i < data["State or region"].length; i++) {
+    if (stateInput == data["State or region"][i] && DemographicInput == data.Demographics[i]) {
+      appendItem(filteredStateOrRegion, stateInput);
+      appendItem(filteredDemographics, DemographicInput);
+      appendItem(filteredPopulation, data["Total registered"][i]);
+    }
+  }
+  
+  var textOutput = "State: " + filteredStateOrRegion + "\nDemographic: " + filteredDemographics 
+  + "\nTotal Registered: " + filteredPopulation;
+  setText("output", textOutput);
+}
+
+
+//Inspired by program in https://github.com/kayanhales/codeorg-unit8-createapt (different purpose)
+//ChatGPT was used for debugging
